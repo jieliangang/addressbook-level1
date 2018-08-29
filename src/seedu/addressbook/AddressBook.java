@@ -70,6 +70,7 @@ public class AddressBook {
     private static final String MESSAGE_COMMAND_HELP = "%1$s: %2$s";
     private static final String MESSAGE_COMMAND_HELP_PARAMETERS = "\tParameters: %1$s";
     private static final String MESSAGE_COMMAND_HELP_EXAMPLE = "\tExample: %1$s";
+    private static final String MESSAGE_COUNT_PERSON = "Size of your address book is %1$d.";
     private static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
     private static final String MESSAGE_DISPLAY_PERSON_DATA = "%1$s  Phone Number: %2$s  Email: %3$s";
     private static final String MESSAGE_DISPLAY_LIST_ELEMENT_INDEX = "%1$d. ";
@@ -132,6 +133,10 @@ public class AddressBook {
     private static final String COMMAND_EXIT_WORD = "exit";
     private static final String COMMAND_EXIT_DESC = "Exits the program.";
     private static final String COMMAND_EXIT_EXAMPLE = COMMAND_EXIT_WORD;
+
+    private static final String COMMAND_COUNT_WORD = "count";
+    private static final String COMMAND_COUNT_DESC = "Displays the size of address book.";
+    private static final String COMMAND_COUNT_EXAMPLE = COMMAND_COUNT_WORD;
 
     private static final String DIVIDER = "===================================================";
 
@@ -377,6 +382,8 @@ public class AddressBook {
             return executeListAllPersonsInAddressBook();
         case COMMAND_DELETE_WORD:
             return executeDeletePerson(commandArgs);
+        case COMMAND_COUNT_WORD:
+            return executeCountPerson();
         case COMMAND_CLEAR_WORD:
             return executeClearAddressBook();
         case COMMAND_HELP_WORD:
@@ -387,6 +394,7 @@ public class AddressBook {
             return getMessageForInvalidCommandInput(commandType, getUsageInfoForAllCommands());
         }
     }
+
 
     /**
      * Splits raw user input into command word and command arguments string
@@ -557,6 +565,29 @@ public class AddressBook {
     private static String getMessageForSuccessfulDelete(String[] deletedPerson) {
         return String.format(MESSAGE_DELETE_PERSON_SUCCESS, getMessageForFormattedPersonData(deletedPerson));
     }
+
+    /**
+     * Displays the total number of people in the address book.
+     *
+     * @return feedback display message for the operation result
+     */
+    private static String executeCountPerson() {
+        int totalSize = getAllPersonsInAddressBook().size();
+        return getMessageForCountPersons(totalSize);
+    }
+
+    /**
+     * Constructs a feedback message to summarise an operation that displayed a listing of persons.
+     *
+     * @see #executeCountPerson()
+     * @param totalNum contains size of address book
+     * @return summary message for size of address book
+     */
+
+    private static String getMessageForCountPersons(int totalNum) {
+        return String.format(MESSAGE_COUNT_PERSON, totalNum);
+    }
+
 
     /**
      * Clears all persons in the address book.
